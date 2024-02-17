@@ -5,7 +5,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
-public class EventSource {
+public class EventSource implements Runnable {
 
     private List<Event> info = new ArrayList<>();
 
@@ -15,11 +15,20 @@ public class EventSource {
 
     public EventSource() {
         random = new Random();
-        start();
     }
 
-    private void start() {
+    public List<Event> readData() {
 
+        List<Event> answer = new ArrayList<>();
+        synchronized (info) {
+            Collections.copy(answer, info);
+            info = new ArrayList<>();
+        }
+        return answer;
+    }
+
+    @Override
+    public void run() {
         while (true) {
             int amount = random.nextInt(10);
             synchronized (info) {
@@ -33,15 +42,5 @@ public class EventSource {
                 Thread.currentThread().interrupt();
             }
         }
-    }
-
-    public List<Event> readData() {
-
-        List<Event> answer = new ArrayList<>();
-        synchronized (info) {
-            Collections.copy(answer, info);
-            info = new ArrayList<>();
-        }
-        return answer;
     }
 }
