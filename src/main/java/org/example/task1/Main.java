@@ -1,11 +1,11 @@
-package org.example;
+package org.example.task1;
 
 public class Main {
 
     public static void main(String[] args) {
 
         ApplicationStatusHandler applicationStatusHandler = new ApplicationStatusHandler();
-        System.out.println(applicationStatusHandler.performOperation("random id"));
+        applicationStatusHandler.performOperation("random id");
     }
 
 
